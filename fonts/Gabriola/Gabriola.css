@@ -1,0 +1,12 @@
+/* Webfont: Gabriola */@font-face {
+    font-family: 'Gabriola';
+    src: url('Gabriola.eot'); /* IE9 Compat Modes */
+    src: url('Gabriola.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('Gabriola.woff') format('woff'), /* Modern Browsers */
+         url('Gabriola.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('Gabriola.svg#Gabriola') format('svg'); /* Legacy iOS */
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+

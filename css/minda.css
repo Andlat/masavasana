@@ -1,0 +1,116 @@
+button.adminButton{
+  border: 1px solid orange;
+  border-radius: 5px;
+  background-color: LightYellow;
+  font-size: 0.7em;
+  cursor: pointer;
+}
+
+button.blueButton{
+    border: 1px solid LightBlue;
+    background-color: rgba(173, 216, 230, 0.5);
+}
+
+button#add_section{
+  position: fixed;
+  top: 5px;
+  right: 10px;
+  min-width: 100px;
+}
+
+button#finish_edit{
+  position: fixed;
+  top: 2em;
+  right: 10px;
+  min-width: 100px;
+  display: none;
+  background-color: rgba(173, 216, 230, 0.8);
+}
+
+section#adminPanel{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  min-height: 60px;
+  border-top: 1px solid black;
+  background-color: #FFFFFF;
+  padding-top: 15px;
+  text-align: center;
+}
+
+button.panelButton{
+  min-width:10%;
+  text-align: center;
+  margin-right: 2%;
+}
+
+button.deleteButton{
+  background-color: rgba(255, 0, 0, 0.2);
+  border-color: red;
+}
+
+div#confirmation_modal{
+  position: fixed;
+  display:none;
+  top: 15%;
+  left: 30%;
+  width: 40%;
+  border-radius: 15px;
+  border: 1px solid LightGray;
+  background-color: #FFFFFF;
+  text-align: center;
+  padding-top: 1.5em;
+  padding-bottom: 2em;/** So the text never overlaps the buttons **/
+  font-size: 0.9em;
+}
+p#modal_msg{
+  text-align: center;
+  padding-left: 25px;
+  padding-right: 25px;
+  margin: 0;
+}
+div#modal_confirmation_buttons{
+  position: absolute;
+  width: 100%;
+  bottom: 7%;
+  text-align: center;
+}
+button.modal_button{
+  font-size: 0.7em;
+}
+button#modal_confirm{
+  margin-right: 10px;
+}
+button#modal_cancel{
+  margin-left: 10px;
+}
+form.media_upload{
+  display: none;
+  border-radius: 5px;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+div#media_input{
+  display: none;
+  margin-bottom: 1em;
+}
+input.media_input{
+  width: 75px;
+  text-align: center;
+}
+
+/* Override QuillJS */
+.ql-container {
+  font-family: inherit !important;
+  font-size: inherit !important;
+}
+.ql-toolbar{
+  position: absolute !important;
+  background-color: white !important;
+  z-index: 3 !important;
+  top: 0;
+}
+/** Cause of QuillJS **/
+div.quill-text-editing{
+  border: 2px solid blue !important;
+}

@@ -1,0 +1,13 @@
+@font-face {
+  font-family: 'Gabriola';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Gabriola'), url('../fonts/Gabriola/Gabriola.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Gabriola';
+  font-style: normal;
+  font-weight: bold;
+  src: local('Gabriola'), url('../fonts/Gabriola/Gabriola-Bold.woff') format('woff');
+}

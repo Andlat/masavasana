@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Admin</title>
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script>
+    $(document).ready(function(){
+      $.post('php/jschecksession.php', function(r){
+        if(!JSON.parse(r)){//If not already connected
+          $('#login').on('click', function(){
+            let user = $('#user').val();
+            let pass = $('#pass').val();
+
+            $.post('php/isminda.php', {usr: user, pwd: pass}, function(response){
+              if(JSON.parse(response) === true){
+                document.location.href="./";
+              }else{
+                $('#error_msg').show();
+              }
+            });
+          });
+          $(document).keyup(function(e) {
+            if(e.keyCode == 13){//Enter key. keycode 13
+              $('#login').click();
+            }
+          });
+        }else{//If already connected
+          $('#logout').on('click', function(){
+            $.post('php/destroy_ses.php', function(){
+              document.location.reload();
+            });
+          });
+
+          $('#login_div').hide();
+          $('#logout').show();
+        }
+      });
+    });
+    </script>
+    <style>
+      html, body{
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      body{
+        padding-top: 100px;
+      }
+      h2{
+        text-align: center;
+      }
+      input{
+        display: block;
+        width: 150px;
+        margin: auto;
+        font-size: 1em;
+      }
+      button{
+        display: block;
+        margin: auto;
+        font-size: 1em;
+        cursor: pointer;
+      }
+      button#logout{
+        display: none;
+      }
+      p{
+        text-align: center;
+        border: 2px solid red;
+        font-size: 1.2em;
+        background-color: rgba(255, 0, 0, 0.3);
+        padding: 10px;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Masavasana.ca</h2>
+    <div id="login_div">
+      <input type="text" id="user" placeholder="user"/>
+      <br />
+      <input type="password" id="pass" placeholder="password"/>
+      <br />
+      <button id="login">Log in</button>
+    </div>
+    <button id="logout">Log out</button>
+    <p id="error_msg">
+      Failed log in. Bad username or password.
+    </p>
+  </body>
+</html>

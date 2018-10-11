@@ -1,0 +1,278 @@
+html{
+  margin: 0px;
+  height:100%;
+  width: 100%;
+}
+body{
+  margin: 0px;
+  padding-top: 0.5em;
+  height: 100%;
+  width: 100%;
+  /*background-color: #F8FAF7;/*#F3F3F3;*/
+  background-color: #FFFFFF;
+  font-family: Gabriola, Verdana, Geneva, sans-serif;
+  font-size: 2em;
+  color: #1A1A1A;/*#222222;*/
+}
+
+header{
+  width: 100%;
+  height: 45%;
+  text-align: center;
+}
+
+nav{
+    position: absolute;
+    top: 1em;
+    width: 80%;
+    left: 8%;
+    right: 12%;
+    height: 2em;
+    text-align: center;
+}
+nav ul li{
+  display: inline;
+  list-style-type: none;
+  margin-left: 60px;
+  margin-right: 60px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+nav ul li a{
+  text-decoration: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+#title{
+  display: inline-block;
+  position: absolute;
+  text-align: center;
+  font-size: 3.5em;
+  font-family: inherit;
+  font-weight: 100;
+  color: #ADCAB1/*#616260*/;
+  width: 80%;
+  left: 10%;
+  right: 10%;
+  margin-top: 12%;
+  z-index: -1;/* So as to not obstruct QuillJS editor */
+}
+.t{
+  opacity: 0;
+}
+
+img.logo{
+  display: block;
+}
+img#logo{
+  height: 55%;
+  position: relative;
+}
+img#logo_words{
+  height: 45%;
+  position: relative;
+  right: 4%;
+}
+div#logo_wrapper{
+  float: right;
+  position: relative;
+  right: 5%;
+  height: 120%;
+  z-index:-1;
+}
+
+section.section{
+  position: relative;
+  width: 100%;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  /*text-align: center;*//*Is done via QuillJS from now on*/
+  background-blend-mode: overlay;
+  background-repeat: no-repeat;
+  min-height: 20%;
+}
+
+/** Cause of QuillJS **/
+div.quill-text{
+  min-height: 40px;
+  padding-left: 25%;
+  padding-right: 25%;
+}
+/*****************/
+
+section.section p{
+  /*width: 50%;
+  margin-left: 25%;
+  margin-right: 25%;*/
+  margin-top:0;
+  margin-bottom:0;
+  white-space: pre-wrap;
+}
+section.section p span{
+  white-space: pre-wrap;
+  margin: 0;
+  padding: 0;
+}
+
+section.section img, section.section video{
+  display: block;
+  margin: auto;
+  margin-bottom: 1em;
+}
+
+h3.s_title{
+  margin-top: 0;
+}
+
+footer{
+  padding-left: 50px;
+  padding-top: 25px;
+  padding-bottom: 15px;
+}
+
+a.social{
+  margin-right: 1%;
+  cursor: pointer;
+  text-decoration: none;
+}
+a.social img{
+  width: 50px;
+  height: 50px;
+}
+a#email{
+  position:relative;
+  top: -20px;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+/*
+video.video_background{
+  display: block;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+  z-index: -1;
+  object-fit: fill;
+  -o-object-fit: fill;
+}
+img.video_background_sound{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  height: 40px;
+  width: 40px;
+  cursor: pointer;
+}
+*/
+
+div.fadein-top{
+  position: absolute;
+  height: 5%;
+  width: 100%;
+  top: 0px;
+  background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+  background: -moz-linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+  background: -o-linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+  background: -ms-linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+  background: -webkit-linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+}
+div.fadein-bottom{
+  position: absolute;
+  height: 5%;
+  width: 100%;
+  bottom: 0px;
+  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+  background: -moz-linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+  background: -o-linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+  background: -ms-linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+  background: -webkit-linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+}
+
+@media only screen and (max-device-width: 480px){
+  body{
+    font-size: 2.5em;
+  }
+
+  header{
+    height: 25%;
+  }
+
+  div#logo_wrapper{
+    right: 1%;
+    height: 110%;
+  }
+
+  nav ul li{
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  /*nav ul li:nth-child(2n):after{
+    content: "\A";
+    white-space: pre;
+  }*/
+  a{
+    font-size: 1.3em;
+  }
+
+  #title{
+    font-size: 2em;
+    margin-top: 20%;
+  }
+
+  section.section{
+    padding-top: 7%;
+    padding-bottom: 7%;
+  }
+  /*
+  section.section p{
+    margin-left: 10%;
+    margin-right: 10%;
+  }*/
+  div.quill-text{
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+
+  div.fadein-top{
+    height: 3%;
+  }
+  div.fadein-bottom{
+    height: 3%;
+  }
+
+  video{
+    width: 80% !important;
+  }
+  image{
+    width: 80% !important
+  }
+
+  a.social img{
+    width: 75px;
+    height: 75px;
+  }
+}
+
+/*******************************\
+ **         USER CSS          **
+\*******************************/
+
+section#s2{
+  text-align: justify;
+  background-image: url("../media/back_s2.png");
+  background-color: rgba(255, 255, 2255, 0.5);
+  background-size: 100% 100%;
+}
+/*
+section#s3{
+  background-image: url("../media/back_s3.jpg");
+  background-color: rgba(248, 250, 247, 0.5);
+}
+*/

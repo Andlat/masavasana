@@ -1,0 +1,12 @@
+/* Webfont: Gabriola-Bold */@font-face {
+    font-family: 'Gabriola';
+    src: url('Gabriola-Bold.eot'); /* IE9 Compat Modes */
+    src: url('Gabriola-Bold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('Gabriola-Bold.woff') format('woff'), /* Modern Browsers */
+         url('Gabriola-Bold.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('Gabriola-Bold.svg#Gabriola-Bold') format('svg'); /* Legacy iOS */
+    font-style: normal;
+    font-weight: bold;
+    text-rendering: optimizeLegibility;
+}
+
