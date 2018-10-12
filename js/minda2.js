@@ -25,6 +25,7 @@ $(document).ready(function(){
 
     setAddText();
     setEditTextQuill($('.quill-text'));
+    window.addEventListener('scroll', checkmakeToolbarVisible);
 
     setDeleteElmnt();
     setSave();
@@ -282,6 +283,9 @@ function removeLastTextQuill(){
 
     delete window.text_editing;
     delete window.quill;
+
+    //If toolbar is gone, delete the toolbar offset. Related to {@link checkmakeToolbarVisible()}
+    delete window.toolbar_oldOffset;
   }
 }
 function setNewTextQuill(elmnt, id){
@@ -291,6 +295,8 @@ function setNewTextQuill(elmnt, id){
   cQuill.Feed(id.replace(/[A-z]/g, ''), window.quill);//Feed the section's content to the editor under a delta format
 
   window.text_editing.addClass('quill-text-editing');
+
+  checkmakeToolbarVisible();
 }
 function setEditTextQuill(elmnt){
   elmnt.on('click', function(){
@@ -299,6 +305,28 @@ function setEditTextQuill(elmnt){
       setNewTextQuill($(this), $(this).attr('id'));
     }
   });
+}
+
+/**
+ * Fixes the toolbar to the top of the screen if the user scrolls to write
+ * to the bottom of the section and doesn't see it anymore.
+ *
+ * Should be called when the toolbar is created and when the user scrolls the window
+ */
+function checkmakeToolbarVisible(){
+  const classname = ' quill-fixed';
+  const toolbar = document.getElementsByClassName('ql-toolbar')[0];
+
+  if(typeof toolbar !== 'undefined'){
+    const offsetY = toolbar.getBoundingClientRect().y;
+    if(offsetY <= 0 && typeof window.toolbar_oldOffset === 'undefined'){
+      toolbar.className += classname;
+      window.toolbar_oldOffset = window.scrollY + offsetY;//If click to edit text when already scrolled past the toolbar, taking into account the negative offset, will give us the toolbar's original position
+    }else if(window.scrollY < window.toolbar_oldOffset){
+      toolbar.className = toolbar.className.replace(classname, '');
+      window.toolbar_oldOffset = null;
+    }
+  }
 }
 /**********************/
 

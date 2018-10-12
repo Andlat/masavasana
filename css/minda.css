@@ -110,6 +110,10 @@ input.media_input{
   z-index: 3 !important;
   top: 0;
 }
+.quill-fixed{
+  position: fixed !important;
+  top: 0 !important;
+}
 /** Cause of QuillJS **/
 div.quill-text-editing{
   border: 2px solid blue !important;
