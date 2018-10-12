@@ -175,6 +175,7 @@ img.video_background_sound{
 div.fadein-top{
   position: absolute;
   height: 5%;
+  min-height: 25px;
   width: 100%;
   top: 0px;
   background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
@@ -186,6 +187,7 @@ div.fadein-top{
 div.fadein-bottom{
   position: absolute;
   height: 5%;
+  min-height: 25px;
   width: 100%;
   bottom: 0px;
   background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
@@ -260,19 +262,13 @@ div.fadein-bottom{
   }
 }
 
-/*******************************\
- **         USER CSS          **
-\*******************************/
-
-section#s2{
+section.section{
   text-align: justify;
-  background-image: url("../media/back_s2.png");
   background-color: rgba(255, 255, 2255, 0.5);
   background-size: 100% 100%;
 }
-/*
-section#s3{
-  background-image: url("../media/back_s3.jpg");
-  background-color: rgba(248, 250, 247, 0.5);
-}
-*/
+
+
+/*******************************\
+ **         USER CSS          **
+\*******************************/

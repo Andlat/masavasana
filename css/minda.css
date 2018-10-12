@@ -27,15 +27,24 @@ button#finish_edit{
   background-color: rgba(173, 216, 230, 0.8);
 }
 
-section#adminPanel{
+section.adminOptions{
   position: fixed;
-  bottom: 0;
   width: 100%;
-  min-height: 60px;
+  height: 60px;
   border-top: 1px solid black;
   background-color: #FFFFFF;
   padding-top: 15px;
   text-align: center;
+}
+section#adminPanel{
+  bottom: 0;
+  z-index: 3;
+}
+section#adminMoreOptions{
+  /**bottom: 76px;/** Same as height from adminOptions + padding-top + border size, so it appears over the main panel **/
+  bottom: 0;/** Hidden at the beginning. Line above is the value when it is shown **/
+  transition: transform 0.25s linear;
+  z-index: 2;
 }
 
 button.panelButton{

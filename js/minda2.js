@@ -15,6 +15,7 @@ $(document).ready(function(){
     });
 
     addAdminTools();
+    setShowMoreOptions();
 
     setSelectSection();
 
@@ -333,6 +334,7 @@ function checkmakeToolbarVisible(){
 /** Set upload photo or video **/
 type = {
   image: {id:'#image-upload', index:0},
+  background: {id:'#image-upload', index:0},//Same as image. Different type, just to differentiate the html
   video: {id:'#video-upload', index:1}
 }
 
@@ -359,11 +361,27 @@ function uploadMedia(msg, gtype){
           if(width.trim()){ if(!isNaN(width)) width += 'px'; }else{ width='auto'; }
           if(height.trim()){ if(!isNaN(height)) height += 'px'; }else{ height='auto'; }
 
-          if(gtype == type.image) elmnt = '<img id="' + id + '" src="media/' + name + '" style="width:' + width + '; height:' + height + ';"/>';
-          else if(gtype == type.video) elmnt = '<video id="' + id + '" style="width:' + width + '; height:' + height + ';" controls><source src="media/' + name + '" type="video/mp4"/></video>';
-
-          $(window.selected).append(elmnt);
-          setCanDelete($('#'+id));
+          switch(gtype){
+            case type.image:
+            elmnt = '<img id="' + id + '" src="media/' + name + '" style="width:' + width + '; height:' + height + ';"/>';
+            break;
+            case type.video:
+            elmnt = '<video id="' + id + '" style="width:' + width + '; height:' + height + ';" controls><source src="media/' + name + '" type="video/mp4"/></video>';
+            break;
+            case type.background:
+            window.selected
+            break;
+            default:
+              console.err('Logic error: Bad media type.').
+            break;
+          }
+          if(gtype === type.background){
+              $(window.selected).css('background-image', "url('media/" + name + "')");
+              $(window.selected).append('<div class="fadein-top"></div><div class="fadein-bottom"></div>');//Fade-in background
+          }else{
+            $(window.selected).append(elmnt);
+            setCanDelete($('#'+id));
+          }
 
         }else{//Delete uploaded files from server
           $.post('php/unlink.php', {file: zone.files[0].name});
@@ -387,6 +405,9 @@ function setMediaUpload(){
   });
   $('#addVid').on('click', function(){
     uploadMedia('Drop video here or click to upload', type.video);
+  });
+  $('#setBackground').on('click', ()=>{
+    uploadMedia('Drop picture or click here to upload', type.background);
   });
 }
 /* Has to be called in the html file after the dropzones are instantiated */
@@ -510,13 +531,17 @@ function addAdminTools(){
   //<button id="addTitle" class="adminButton panelButton" meta-txt="Title">Title</button>\
   $('body').append('<button id="add_section" class="adminButton">Add Section</button>\
                     <button id="finish_edit" class="adminButton blueButton">OK</button>\
-                    <section id="adminPanel">\
+                    <section id="adminPanel" class="adminOptions">\
+                    <button id="moreOptions" class="adminButton panelButton" meta-txt="More">More</button>\
                       <button id="addText" class="adminButton panelButton" meta-txt="Text">Text</button>\
                       <button id="addImg" class="adminButton panelButton" meta-txt="Image">Image</button>\
                       <button id="addVid" class="adminButton panelButton" meta-txt="TitVideole">Video</button>\
                       <button id="deleteElmntButton" class="adminButton panelButton deleteButton" meta-txt="Delete Element">Delete Element</button>\
                       <button id="deleteButton" class="adminButton panelButton deleteButton" meta-txt="Delete">Delete</button>\
                       <button id="save" class="adminButton blueButton panelButton">Save</button>\
+                    </section>\
+                    <section id="adminMoreOptions" class="adminOptions">\
+                      <button id="setBackground" class="adminButton panelButton" meta-txt="Background">Background</button>\
                     </section>\
                     <div id="confirmation_modal">\
                       <p id="modal_msg">\
@@ -538,3 +563,24 @@ function addAdminTools(){
 
   setDropZoneOptions();
 }
+
+/**
+ * Show more options
+ **/
+ function setShowMoreOptions(){
+   window.isShown = false;
+
+   const translate_val = 76;
+   const css_show = {transform: 'translateY('+(-translate_val).toString()+'px)'};
+   const css_hide = {transform: 'translateY('+translate_val.toString()+'px)'};
+
+   $('#moreOptions').on('click', function(){
+     if(!window.isShown){
+       $('#adminMoreOptions').css(css_show);
+       window.isShown = true;
+     }else{
+       $('#adminMoreOptions').css(css_hide);
+       window.isShown = false;
+     }
+   });
+ }
