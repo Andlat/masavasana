@@ -16,6 +16,7 @@ button#add_section{
   top: 5px;
   right: 10px;
   min-width: 100px;
+  z-index: 10;
 }
 
 button#finish_edit{
@@ -70,7 +71,7 @@ div#confirmation_modal{
   text-align: center;
   padding-top: 1.5em;
   padding-bottom: 2em;/** So the text never overlaps the buttons **/
-  font-size: 0.9em;
+  font-size: 0.9em;  
 }
 p#modal_msg{
   text-align: center;
