@@ -501,6 +501,7 @@ function setSave(){
     doc.find('#add_section').remove();
     doc.find('#finish_edit').remove();
     doc.find('#adminPanel').remove();
+    doc.find('#adminMoreOptions').remove();
     doc.find('#confirmation_modal').remove();
     doc.find('#dropzone_script').remove();
     doc.find('input').remove();//Remove the dropzone inputs
@@ -509,7 +510,7 @@ function setSave(){
 
     html = html.replace(/"logo (spin[0-9]( |"))*?>/, '"logo spin1">');//Check and set the correct class for the spinning logo
 
-    html = html.replace(/ style="cursor: pointer; border: none; background-color: inherit;"/g, '');//remove some inline style tags used for the editing mode
+    html = html.replace(/cursor: pointer; border: none; background-color: inherit;/g, '');//remove some inline style tags used for the editing mode
     html = html.replace(/ style="opacity: 1;"/g, '');
     //html = html.replace(/style="(?!width|height).*?"/g, '');//remove the inline style tags except for the width/height of pictures
 
@@ -522,6 +523,7 @@ function setSave(){
     html = html.replace(/<link.*dropzone\.css">/, '');//delete the dynamically added style
     html = html.replace(/<link.*quill\.snow\.css">/, '');//delete the dynamically added style
 
+    html = html.replace(/\s*$/g, '');//Delete spaces at end of lines and some empty lines (can't catch line preceding text. Can't find how. doesn't really matter).
     return html;
   }
 }
