@@ -1,6 +1,7 @@
 //TODO Scroll to added element
 //TODO CHECKED Modal to ask if certain to delete element or section
 //TODO CHECKED When SAVE is clicked, verify if PHP session is still valid (in case someone finds out this js file's name and loads it to mess with the website)
+//TODO delete the "margin" under media
 
 /*****************************************\
  **  ONLY LOAD THIS SCRIPT IF IS ADMIN  **
@@ -27,6 +28,9 @@ $(document).ready(function(){
     setAddText();
     setEditTextQuill($('.quill-text'));
     window.addEventListener('scroll', checkmakeToolbarVisible);
+
+    triggerDisableLink(true);//Destroys all event listeners related to it
+    setCreateLink();//Has to be called after {@link triggerDisableLink}, because triggerDisableLink deletes all event listeners related to it
 
     setDeleteElmnt();
     setSave();
@@ -161,9 +165,9 @@ function setOnBlur(element){
 }
 /**********************/
 
-/** Edit element when clicked on **/
+/** Edit element when clicked on **/ /** Wouldn't work anyways in this QuillJS implementation for text editing **/
 function setAllEditable(){
-  $(".section").children('h3, p').each(function(){
+  $(".section").children('p').each(function(){
     setupEditing($(this));
   });
 }
@@ -331,6 +335,105 @@ function checkmakeToolbarVisible(){
 }
 /**********************/
 
+window.l_id = 0;
+/** Create links (either to external site or anchor) from elements **/
+/** TODO support for anchors **/
+function setCreateLink(){
+  const link_modal = $('#link_modal');
+
+  $('#addLink').on('click', ()=>{
+    window.link_add = true;
+
+    link_modal.show();
+    showModal('Select the wanted element and write the website address to link to.', (rsp)=>{
+      //When a button from the modal is clicked, execute this block
+
+      if(rsp){
+        const link_addr = link_modal.val().trim();
+        if(link_addr && typeof window.link_selected !== 'undefined'){
+          $(window.link_selected).css('border', 'initial');
+
+          //If a link already exists for that element, delete the link parent, before creating the new one
+          let linkParent = $(window.link_selected).parent('.link_placeholder');
+          if(typeof linkParent[0] !== 'undefined'){ $(window.link_selected).unwrap(); }
+
+          //create the "fake editing mode" link. Will be transformed into a real link when saving
+          window.link_selected.outerHTML = '<span id="l'+window.l_id+'" class="link_placeholder" meta-href="' + link_addr +'">' + window.link_selected.outerHTML + '</span>';
+
+          //Reset it permitted as link, since replacing the outerHTML destroyed the event listener
+          setPermitAsLink($('#l'+window.l_id).children().eq(0));
+
+          ++window.l_id;
+
+          //Hide the modal
+          HideModal();
+        }
+      }else{
+        link_modal.css('border', '1px solid red');
+      }
+
+      //Reset the selected item's border and the modal's link input
+      $(window.link_selected).css('border', 'initial');
+      link_modal.css('border', 'initial');
+      link_modal.val('');
+      link_modal.hide();
+
+      delete window.link_selected;
+      delete window.link_add;
+    });
+  });
+
+  /** Set up to select which element to link to a page.
+    * Need to add support for text. Let's say, link highlighted text. Might use QuillJS for text instead.
+    **/
+  $('.section').find('button, img').each(function(){
+    setPermitAsLink($(this));
+  });
+}
+function setPermitAsLink(jq_elmnt){
+  jq_elmnt.on('click', function(){
+    if(window.link_add){
+      if(window.modalOpen){
+        //Delete the 'selected' border of the previously selected element
+        if(typeof window.link_selected !== 'undefined')
+          $(window.link_selected).css('border', 'initial');
+
+        //Select the element to link and add a yellow border
+        jq_elmnt.css('border', '3px solid yellow');
+        window.link_selected = jq_elmnt[0];
+
+      }else{//In case window.link_add is true even if the modal is closed, delete it. (In case I decide to hide the modal by clicking anywhere. But that would break the "choose which element to set as link" implementation that I did. So wathever. Can remove this block.)
+        delete window.link_add;
+      }
+    }
+  });
+}
+
+/**
+ *  Disable links when in editing mode by replacing them with inline-block spans.
+ * WARNING: This function destroys all event listeners related to the links, because it replaces the outerHTML of the element.
+ */
+function triggerDisableLink(disable){
+  disable = (disable === false ? false : true);//validate argument. Default option is disable links
+
+  if(disable){
+    $('.card_link').each(function(){
+      let elmnt = $(this)[0];
+      let inner = elmnt.innerHTML, href = elmnt.href;
+
+      elmnt.outerHTML = '<span class="link_placeholder" meta-href="'+href+'">' + inner + '</span>';
+    });
+  }else{
+    $('.link_placeholder').each(function(){
+      let jq_elmnt = $(this);
+      let inner = jq_elmnt[0].innerHTML, href = jq_elmnt.attr('meta-href');
+
+      jq_elmnt[0].outerHTML = '<a class="card_link" href=' + href +'>' + inner + '</a>';
+    });
+  }
+}
+/**********************/
+
 /** Set upload photo or video **/
 type = {
   image: {id:'#image-upload', index:0},
@@ -363,10 +466,10 @@ function uploadMedia(msg, gtype){
 
           switch(gtype){
             case type.image:
-            elmnt = '<img id="' + id + '" src="media/' + name + '" style="width:' + width + '; height:' + height + ';"/>';
+            elmnt = '<div class="media_block_cont"><img id="' + id + '" src="media/' + name + '" style="width:' + width + '; height:' + height + ';"/></div>';
             break;
             case type.video:
-            elmnt = '<video id="' + id + '" style="width:' + width + '; height:' + height + ';" controls><source src="media/' + name + '" type="video/mp4"/></video>';
+            elmnt = '<div class="media_block_cont"><video id="' + id + '" style="width:' + width + '; height:' + height + ';" controls><source src="media/' + name + '" type="video/mp4"/></video></div>';
             break;
             case type.background:
             window.selected
@@ -381,6 +484,9 @@ function uploadMedia(msg, gtype){
           }else{
             $(window.selected).append(elmnt);
             setCanDelete($('#'+id));
+
+            //If is image, set up the ability to become a link
+            if(gtype === type.image){ setPermitAsLink($('#'+id)); }
           }
 
         }else{//Delete uploaded files from server
@@ -482,6 +588,7 @@ function CollectQuills(){
 function setSave(){
   $('#save').on('click', ()=>{
     UnselectSection();//Unselect the last edited section
+    triggerDisableLink(false);//Enable back the links
 
     $.post('php/save.php', {html:getHtml()}, (success)=>{
       if(!JSON.parse(success)){
@@ -514,8 +621,12 @@ function setSave(){
     html = html.replace(/ style="opacity: 1;"/g, '');
     //html = html.replace(/style="(?!width|height).*?"/g, '');//remove the inline style tags except for the width/height of pictures
 
-    html = html.replace(/id="ce[0-9]"/g, '');//strip the ids used for the editor
+    html = html.replace('border: 3px solid yellow;', '');//Remove inline css border used for selected element to link
+
+    html = html.replace(/id="ce[0-9]*"/g, '');//strip the ids used for the editor
     //html = html.replace(/contenteditable="(true|false)"/g, '');//replace all the contenteditable props
+
+    html = html.replace(/id="l[0-9]*"/g, '');//strip the ids used to edit links
 
     html = html.replace(/(\n| )*<\/body>/, '\n  <\/body>');//strip spaces and newlines before closing body tag. Caused by deleting the admin tools
     html = html.replace(/<style><\/style>/g, '');//delete empty style tags (added when saving. known bug) #PATCH
@@ -524,6 +635,7 @@ function setSave(){
     html = html.replace(/<link.*quill\.snow\.css">/, '');//delete the dynamically added style
 
     html = html.replace(/\s*$/g, '');//Delete spaces at end of lines and some empty lines (can't catch line preceding text. Can't find how. doesn't really matter).
+
     return html;
   }
 }
@@ -544,6 +656,7 @@ function addAdminTools(){
                     </section>\
                     <section id="adminMoreOptions" class="adminOptions">\
                       <button id="setBackground" class="adminButton panelButton" meta-txt="Background">Background</button>\
+                      <button id="addLink" class="adminButton panelButton" meta-txt="Link">Link</button>\
                     </section>\
                     <div id="confirmation_modal">\
                       <p id="modal_msg">\
@@ -556,6 +669,7 @@ function addAdminTools(){
                         <span>x</span>\
                         <input type="text" id="media_height" class="media_input" placeholder="height"/>\
                       </div>\
+                      <input id="link_modal" type="text" placeholder="http://website.com">\
                       <div id="modal_confirmation_buttons">\
                         <button id="modal_confirm" class="modal_button adminButton blueButton" meta-rsp="1">Confirm</button>\
                         <button id="modal_cancel" class="modal_button adminButton deleteButton" meta-rsp="0">Cancel</button>\

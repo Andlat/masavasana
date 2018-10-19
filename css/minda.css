@@ -71,7 +71,7 @@ div#confirmation_modal{
   text-align: center;
   padding-top: 1.5em;
   padding-bottom: 2em;/** So the text never overlaps the buttons **/
-  font-size: 0.9em;  
+  font-size: 0.9em;
 }
 p#modal_msg{
   text-align: center;
@@ -107,6 +107,18 @@ div#media_input{
 input.media_input{
   width: 75px;
   text-align: center;
+}
+input#link_modal{
+  display: none;
+  margin-bottom: 1em;
+}
+
+a.card_link{
+  display: inline-block;
+}
+span.link_placeholder{
+  display: inline-block;
+  border: 2px solid blue;
 }
 
 /* Override QuillJS */

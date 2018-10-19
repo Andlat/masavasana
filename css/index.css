@@ -117,10 +117,13 @@ section.section p span{
   padding: 0;
 }
 
-section.section img, section.section video{
-  display: block;
+div.media_block_cont{
+  text-align: center;
   margin: auto;
   margin-bottom: 1em;
+}
+section.section img, section.section video{
+  margin: auto;
 }
 
 h3.s_title{
@@ -171,6 +174,11 @@ img.video_background_sound{
   cursor: pointer;
 }
 */
+
+a.link{ /** deal with link even on element's margins **/
+  text-decoration: none;
+  cursor: pointer;
+}
 
 div.fadein-top{
   position: absolute;
