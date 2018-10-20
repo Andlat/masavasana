@@ -21,7 +21,8 @@ window.cQuill = {
       [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
       [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
       /*[{ 'header': [1, 2, 3, 4, 5, 6, false] }],*/
-      [{ 'align': [] }]//,
+      [{ 'align': [] }],
+      [ 'link', 'image', 'video', 'formula' ]
       /*[ 'link', 'image', 'video' ]*/
     ];
     let quill = new Quill('#'+id, {
