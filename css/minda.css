@@ -1,3 +1,9 @@
+/* Override the max-height set in the index.css, because we don't want the "Read More" feature in admin editing mode */
+section.section{
+  max-height: none !important;
+  overflow: visible !important;
+}
+
 button.adminButton{
   border: 1px solid orange;
   border-radius: 5px;

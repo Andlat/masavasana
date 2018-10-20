@@ -12,6 +12,9 @@ function check(){
           });
         });
     }
+    else{
+      $.getScript('js/read_more.js');//Only include the read more feature when not in admin editing mode
+    }
   });
 }
 check();

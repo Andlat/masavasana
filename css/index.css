@@ -87,12 +87,16 @@ div#logo_wrapper{
 section.section{
   position: relative;
   width: 100%;
+  min-height: 200px;
+  max-height: 400px;
+  overflow: hidden;
   padding-top: 5%;
   padding-bottom: 5%;
-  /*text-align: center;*//*Is done via QuillJS from now on*/
+  text-align: justify;
+  background-color: rgba(255, 255, 2255, 0.5);
   background-blend-mode: overlay;
   background-repeat: no-repeat;
-  min-height: 20%;
+  background-size: 100% 100%;
 }
 
 /** Because of QuillJS **/
@@ -122,9 +126,9 @@ div.media_block_cont{
   margin: auto;
   margin-bottom: 1em;
 }
-section.section img, section.section video{
+/*section.section img, section.section video{
   margin: auto;
-}
+}*/
 
 h3.s_title{
   margin-top: 0;
@@ -205,6 +209,23 @@ div.fadein-bottom{
   background: -webkit-linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
 }
 
+div.read_more{
+  height: 50px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  padding-top: 10px;
+  text-align: center;
+  border-bottom: 1px solid black;
+  cursor: pointer;
+  background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 1));
+  background: -moz-linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 1));
+  background: -o-linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 1));
+  background: -ms-linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 1));
+  background: -webkit-linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 1));
+  color: inherit;
+}
+
 @media only screen and (max-device-width: 480px){
   body{
     font-size: 2.5em;
@@ -269,13 +290,6 @@ div.fadein-bottom{
     height: 75px;
   }
 }
-
-section.section{
-  text-align: justify;
-  background-color: rgba(255, 255, 2255, 0.5);
-  background-size: 100% 100%;
-}
-
 
 /*******************************\
  **         USER CSS          **

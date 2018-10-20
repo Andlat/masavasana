@@ -620,6 +620,7 @@ function setSave(){
     html = html.replace(/cursor: pointer; border: none; background-color: inherit;/g, '');//remove some inline style tags used for the editing mode
     html = html.replace(/ style="opacity: 1;"/g, '');
     //html = html.replace(/style="(?!width|height).*?"/g, '');//remove the inline style tags except for the width/height of pictures
+
     html = html.replace(/ ?cursor: pointer;/g, '');//Delete the cursor inline style of the sections
 
     html = html.replace('border: 3px solid yellow;', '');//Remove inline css border used for selected element to link
