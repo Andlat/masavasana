@@ -320,7 +320,7 @@ function setEditTextQuill(elmnt){
  */
 function checkmakeToolbarVisible(){
   const classname = ' quill-fixed';
-  const toolbar = document.getElementsByClassName('ql-toolbar')[0];
+  const toolbar = $('.ql-toolbar')[0];
 
   if(typeof toolbar !== 'undefined'){
     const offsetY = toolbar.getBoundingClientRect().y;
@@ -329,7 +329,7 @@ function checkmakeToolbarVisible(){
       window.toolbar_oldOffset = window.scrollY + offsetY;//If click to edit text when already scrolled past the toolbar, taking into account the negative offset, will give us the toolbar's original position
     }else if(window.scrollY < window.toolbar_oldOffset){
       toolbar.className = toolbar.className.replace(classname, '');
-      window.toolbar_oldOffset = null;
+      delete window.toolbar_oldOffset;
     }
   }
 }
