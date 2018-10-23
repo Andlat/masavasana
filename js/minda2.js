@@ -480,7 +480,9 @@ function uploadMedia(msg, gtype){
           }
           if(gtype === type.background){
               $(window.selected).css('background-image', "url('media/" + name + "')");
-              $(window.selected).append('<div class="fadein-top"></div><div class="fadein-bottom"></div>');//Fade-in background
+              if($(window.selected).find('[class^="fadein-"]').length === 0){//Add fade-in background, if not already there
+                $(window.selected).append('<div class="fadein-top"></div><div class="fadein-bottom"></div>');
+              }
           }else{
             $(window.selected).append(elmnt);
             setCanDelete($('#'+id));
