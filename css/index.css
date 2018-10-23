@@ -188,6 +188,7 @@ div.fadein-top{
   position: absolute;
   height: 5%;
   min-height: 25px;
+  max-height: 50px;
   width: 100%;
   top: 0px;
   background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
@@ -200,6 +201,7 @@ div.fadein-bottom{
   position: absolute;
   height: 5%;
   min-height: 25px;
+  max-height: 50px;
   width: 100%;
   bottom: 0px;
   background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
@@ -273,9 +275,11 @@ div.read_more{
 
   div.fadein-top{
     height: 3%;
+    max-height: 40px;
   }
   div.fadein-bottom{
     height: 3%;
+    max-height: 40px;
   }
 
   video{
