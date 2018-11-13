@@ -33,6 +33,8 @@ $(document).ready(function(){
     setCreateLink();//Has to be called after {@link triggerDisableLink}, because triggerDisableLink deletes all event listeners related to it
 
     setDeleteElmnt();
+    setDeleteBackground();
+
     setSave();
 
     /*
@@ -441,13 +443,31 @@ type = {
   video: {id:'#video-upload', index:1}
 }
 
+/**
+  * Uploads media added with QuillJS.
+  * ONLY WORKS FOR IMAGES FOR NOW
+  **/
+function uploadMediaQuill(elmnt){
+  $.post('php/uploadQuillMedia.php', {img: elmnt.src}, (response)=>{
+    response = JSON.parse(response);
+    if(response !== false && response !== 'false'){
+      elmnt.src = response;
+    }else{
+      console.err('Failed to upload image.');
+    }
+  });
+}
 function uploadMedia(msg, gtype){
   if(typeof window.selected !== "undefined" && !window.delete){
     $(gtype.id).children('.dz-message').first().text(msg);
     $(gtype.id).show();
     let zone = Dropzone.instances[gtype.index];
 
-    $('#media_input').show();
+    if(gtype !== type.background)
+      $('#media_input').show();
+    else
+      $('#del_background_btn').show();
+
     showModal('', function(rsp){
       if(zone.files.length > 0){
         let name = zone.files[0].name;//Only 1 file can be uploaded at a time, so the index will always be 0
@@ -472,18 +492,17 @@ function uploadMedia(msg, gtype){
             elmnt = '<div class="media_block_cont"><video id="' + id + '" style="width:' + width + '; height:' + height + ';" controls><source src="media/' + name + '" type="video/mp4"/></video></div>';
             break;
             case type.background:
-            window.selected
+              $(window.selected).css('background-image', "url('media/" + name + "')");
+              if($(window.selected).find('[class^="fadein-"]').length === 0){//Add fade-in background, if not already there
+                $(window.selected).append('<div class="fadein-top"></div><div class="fadein-bottom"></div>');
+              }
             break;
             default:
               console.err('Logic error: Bad media type.').
             break;
           }
-          if(gtype === type.background){
-              $(window.selected).css('background-image', "url('media/" + name + "')");
-              if($(window.selected).find('[class^="fadein-"]').length === 0){//Add fade-in background, if not already there
-                $(window.selected).append('<div class="fadein-top"></div><div class="fadein-bottom"></div>');
-              }
-          }else{
+          //Append thenew html content, except if is background
+          if(gtype !== type.background){
             $(window.selected).append(elmnt);
             setCanDelete($('#'+id));
 
@@ -501,6 +520,7 @@ function uploadMedia(msg, gtype){
       $('#media_width').val(null);
       $('#media_height').val(null);
       $('#media_input').hide();
+      $('#del_background_btn').hide();
 
       $(gtype.id).hide();
     });
@@ -518,6 +538,18 @@ function setMediaUpload(){
     uploadMedia('Drop picture or click here to upload', type.background);
   });
 }
+
+function setDeleteBackground(){
+  $('#del_background_btn').click(()=>{
+    $(window.selected).css('background-image', 'none');
+
+
+    $('#image-upload').hide();
+    $('#del_background_btn').hide();
+    HideModal();
+  });
+}
+
 /* Has to be called in the html file after the dropzones are instantiated */
 function setDropZoneOptions(){
   //Create the dropzones
@@ -668,6 +700,7 @@ function addAdminTools(){
                       </p>\
                       <form id="image-upload" enctype="multipart/form-data" action="php/upload.php" class="dropzone media_upload"></form>\
                       <form id="video-upload" enctype="multipart/form-data" action="php/upload.php" class="dropzone media_upload"></form>\
+                      <input id="del_background_btn" type="button" value="Delete" />\
                       <div id="media_input">\
                         <input type="text" id="media_width" class="media_input" placeholder="width"/>\
                         <span>x</span>\

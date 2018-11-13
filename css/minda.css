@@ -118,6 +118,9 @@ input#link_modal{
   display: none;
   margin-bottom: 1em;
 }
+input#del_background_btn{
+  display: none;
+}
 
 a.card_link{
   display: inline-block;

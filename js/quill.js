@@ -21,8 +21,8 @@ window.cQuill = {
       [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
       [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
       /*[{ 'header': [1, 2, 3, 4, 5, 6, false] }],*/
-      [{ 'align': [] }]/*,
-      [ 'link', 'image', 'video' ]*/
+      [{ 'align': [] }],
+      [ /*'link', */'image'/*, 'video' */]
     ];
     let quill = new Quill('#'+id, {
       theme: 'snow',
@@ -39,6 +39,7 @@ window.cQuill = {
     let elements = [];
     let style = '';
     let parentStyle = '';
+    let _class = '';
 
     for(let k in c){
       let insert = c[k].insert;
@@ -46,8 +47,14 @@ window.cQuill = {
 
       style = '';
       parentStyle = '';
+      _class = '';
 
-      if(insert.match(/^\n/) !== null){//Parse the new line or special content from last line
+      if(typeof insert === 'object'){//Check if is a picture or video or etc.
+         if('image' in insert){//Is an image
+           insert = '<img src="' + insert['image'] + '"/>';
+           _class = 'media_block_cont_quill';
+         }
+      }else if(insert.match(/^\n/) !== null){//Parse the new line or special content from last line
         for(let g in attrs){
           switch(g){
             case 'indent':
@@ -68,7 +75,6 @@ window.cQuill = {
             style += 'font-style: italic;';
             break;
             case 'underline':
-            console.log(2);
             if(style.match(/text-decoration:/) !== null){//In case strike was already added, only add the underline to text-decoration
               style = style.replace(/text-decoration:/, 'text-decoration: underline');
             }else{
@@ -76,7 +82,6 @@ window.cQuill = {
             }
             break;
             case 'strike':
-            console.log(1);
             if(style.match(/text-decoration:/) !== null){//In case underline was already added, only add the strike to text-decoration
               style = style.replace(/text-decoration:/, 'text-decoration: line-through');
             }else{
@@ -101,7 +106,7 @@ window.cQuill = {
           }
         }
       }
-      elements.push({style: style, content: insert, parentStyle: parentStyle});
+      elements.push({style: style, content: insert, parentStyle: parentStyle, _class: _class});
     }
     return elements;
   },
@@ -119,7 +124,7 @@ window.cQuill = {
         if(carr[0] === '\n') carr.shift();
         if(carr[carr.length-1] === '\n') carr.pop();
 
-        content += '<span style="' + item.style + '">' + collate(carr).replace(/\n/gm, '<br/>') + '</span>';//Add content to html
+        content += '<span style="' + item.style + '"' + (item._class.trim().length > 0 ? ' class="'+item._class+'"' : '') + '>' + collate(carr).replace(/\n/gm, '<br/>') + '</span>';//Add content to html
       }
       if(item.content.match(/^\n/m) !== null || index===array.length-1){//If MATCHES NEWLINE or is last element
         //Close and open p tags on new lines
