@@ -10,5 +10,6 @@ The CMS collates the changes into a static HTML file.
 ### Main editor
 <img src="readme_pics/main-cms.png" alt="main cms editor" height="300" />
 
+<br/>
 ### Text editor using Quill JS
 <img src="readme_pics/Quill JS.png" alt="text editor" height="300" />
